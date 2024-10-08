@@ -1,0 +1,87 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <!-- Иконка устройства -->
+    <ImageView
+        android:id="@+id/item_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/baseline_info_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+    <TextView
+        android:id="@+id/item_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="22sp"
+        android:text="1"/>
+
+    <TextView
+        android:id="@+id/item_serial"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="SN: 90000510"
+        app:layout_constraintStart_toEndOf="@id/item_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/item_name" />
+    <TextView
+        android:id="@+id/item_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="DTS BT"
+        app:layout_constraintStart_toEndOf="@id/item_serial"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Данные о температуре и батарее -->
+    <TextView
+        android:id="@+id/item_temperature"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Temperature: 23°C"
+        app:layout_constraintStart_toStartOf="@id/item_serial"
+        app:layout_constraintTop_toBottomOf="@id/item_serial" />
+
+
+    <TextView
+        android:id="@+id/item_upper_reference_temperature"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="t калибр. верх: 45, смещение: 0.00"
+        app:layout_constraintStart_toStartOf="@id/item_temperature"
+        app:layout_constraintTop_toBottomOf="@id/item_temperature" />
+    <TextView
+        android:id="@+id/item_lower_reference_temperature"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="t калибр. низ: -20, смещение: 0.00"
+        app:layout_constraintStart_toStartOf="@id/item_upper_reference_temperature"
+        app:layout_constraintTop_toBottomOf="@id/item_upper_reference_temperature" />
+
+    <!-- Номер сообщения -->
+    <TextView
+        android:id="@+id/item_upper_reference_humidity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="h калибр. верх: 60, смещение: 0.00"
+        app:layout_constraintStart_toStartOf="@id/item_lower_reference_temperature"
+        app:layout_constraintTop_toBottomOf="@id/item_lower_reference_temperature"
+        />
+
+    <TextView
+        android:id="@+id/item_lower_reference_humidity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="h калибр. низ: 5, смещение: 0.00"
+        app:layout_constraintStart_toStartOf="@id/item_upper_reference_humidity"
+        app:layout_constraintTop_toBottomOf="@id/item_upper_reference_humidity"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
