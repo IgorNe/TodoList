@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todolist.data.Note
 import com.example.todolist.databinding.ListFragmentBinding
 import com.example.todolist.domain.models.ListFragmentViewModel
+import com.example.todolist.domain.repositories.DataBaseRepositoryImpl
 import com.example.todolist.presentation.adapters.ListFragmentRecyclerViewAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -23,13 +24,14 @@ class ListFragment: Fragment() {
     lateinit var notesListObserver:Observer<List<Note>>
 
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel = ListFragmentViewModel()
+        viewModel = ListFragmentViewModel(DataBaseRepositoryImpl(context = requireContext()))
         _binding = ListFragmentBinding.inflate(layoutInflater)
 
 
