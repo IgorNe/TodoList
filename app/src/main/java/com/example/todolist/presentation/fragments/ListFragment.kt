@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.todolist.databinding.ActivityMainBinding
+import com.example.todolist.data.Note
 import com.example.todolist.databinding.ListFragmentBinding
-import com.example.todolist.domain.models.ListFragmentModel
+import com.example.todolist.domain.models.ListFragmentViewModel
 import com.example.todolist.presentation.adapters.ListFragmentRecyclerViewAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListFragment: Fragment() {
 
@@ -18,7 +19,8 @@ class ListFragment: Fragment() {
     private val binding get() = _binding!!
     private val adapter = ListFragmentRecyclerViewAdapter()
 
-    lateinit var viewModel: ListFragmentModel
+    lateinit var viewModel: ListFragmentViewModel
+    lateinit var notesListObserver:Observer<List<Note>>
 
 
     override fun onCreateView(
@@ -27,8 +29,10 @@ class ListFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel = ListFragmentModel()
+        viewModel = ListFragmentViewModel()
         _binding = ListFragmentBinding.inflate(layoutInflater)
+
+
 
         return binding.root
     }
@@ -37,6 +41,8 @@ class ListFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
+
+
     }
 
 
@@ -44,6 +50,12 @@ class ListFragment: Fragment() {
         binding.apply {
             rvListData.layoutManager = LinearLayoutManager(context)
             rvListData.adapter = adapter
+            btnAddNote.setOnClickListener {
+                viewModel.addNote()
+            }
+            notesListObserver = Observer { list ->
+                adapter.updateData(list)
+            }
         }
     }
 
@@ -57,5 +69,19 @@ class ListFragment: Fragment() {
         @JvmStatic
         fun newInstance() = ListFragment()
     }
+
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.liveDataNotes.observe(this, notesListObserver)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.liveDataNotes.removeObserver(notesListObserver)
+    }
+
+
+
 
 }
