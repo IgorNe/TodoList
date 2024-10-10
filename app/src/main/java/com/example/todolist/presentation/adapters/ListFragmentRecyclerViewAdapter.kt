@@ -7,12 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.data.Note
 import com.example.todolist.databinding.ItemDataBinding
+import com.example.todolist.domain.models.ListFragmentViewModel
+import com.example.todolist.presentation.fragments.ListFragment
 
-class ListFragmentRecyclerViewAdapter: RecyclerView.Adapter<ListFragmentRecyclerViewAdapter.MyViewHolder>() {
+class ListFragmentRecyclerViewAdapter(val viewModel: ListFragmentViewModel): RecyclerView.Adapter<ListFragmentRecyclerViewAdapter.MyViewHolder>() {
 
     var noteList:  List<Note> = arrayListOf()
 
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemDataBinding.bind(view)
 
         fun bind(note: Note) = with(binding){
@@ -20,6 +23,12 @@ class ListFragmentRecyclerViewAdapter: RecyclerView.Adapter<ListFragmentRecycler
             tvTitle.text = note.title
             tvDescription.text = note.description
             tvCreationTime.text = note.time
+            imgBtnEdit.setOnClickListener {
+
+            }
+            imgBtnDelete.setOnClickListener {
+                viewModel.deleteNote(note)
+            }
         }
 
     }

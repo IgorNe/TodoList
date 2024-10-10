@@ -35,7 +35,9 @@ class ListFragmentViewModel(val dataBaseRepository: DataBaseRepository) :ViewMod
         _notes.value = v*/
     }
 
-
+    fun deleteNote(note: Note) {
+        println(note.id.toString() + ">>>>>>>>>>>>>>>>>>>>>")
+    }
 
 
 }

@@ -19,7 +19,8 @@ class ListFragment: Fragment(), CreateNoteDialog.AddDialogListener {
 
     private var _binding: ListFragmentBinding? = null
     private val binding get() = _binding!!
-    private val adapter = ListFragmentRecyclerViewAdapter()
+
+    lateinit private var adapter :ListFragmentRecyclerViewAdapter
 
     lateinit var viewModel: ListFragmentViewModel
     lateinit var notesListObserver:Observer<List<Note>>
@@ -34,7 +35,9 @@ class ListFragment: Fragment(), CreateNoteDialog.AddDialogListener {
     ): View? {
 
         viewModel = ListFragmentViewModel(DataBaseRepositoryImpl(context = requireContext()))
+        adapter = ListFragmentRecyclerViewAdapter(viewModel)
         _binding = ListFragmentBinding.inflate(layoutInflater)
+
 
 
 
@@ -88,6 +91,10 @@ class ListFragment: Fragment(), CreateNoteDialog.AddDialogListener {
     override fun noteDataUpdated(note: Note) {
         viewModel.addNote(note)
 
+    }
+
+    fun deleteNote(note: Note){
+        viewModel.deleteNote(note)
     }
 
 
