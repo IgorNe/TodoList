@@ -7,6 +7,8 @@ import com.example.todolist.data.Note
 import com.example.todolist.domain.abstractions.DataBaseRepository
 import com.example.todolist.domain.usecases.InsertNoteUseCase
 import com.example.todolist.domain.usecases.LoadTableUseCase
+import java.text.SimpleDateFormat
+import java.util.Date
 import kotlin.random.Random
 
 class ListFragmentViewModel(val dataBaseRepository: DataBaseRepository) :ViewModel() {
@@ -24,8 +26,9 @@ class ListFragmentViewModel(val dataBaseRepository: DataBaseRepository) :ViewMod
     }
 
 
-    fun addNote() {
-        insertNoteUseCase.execute(Note(2, "qwe", "qweqwe", "09.10"))
+    fun addNote(note: Note) {
+        note.time = SimpleDateFormat("HH:mm:ss dd.MM.yy").format(Date())
+        insertNoteUseCase.execute(note)
         _notes.value = loadTableUseCase.execute()
 /*        var v =_notes.value
         v?.add(Note(2, "qwe", "qweqwe", "09.10"))

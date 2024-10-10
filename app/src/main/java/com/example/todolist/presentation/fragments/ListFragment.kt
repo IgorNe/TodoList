@@ -12,9 +12,10 @@ import com.example.todolist.databinding.ListFragmentBinding
 import com.example.todolist.domain.models.ListFragmentViewModel
 import com.example.todolist.domain.repositories.DataBaseRepositoryImpl
 import com.example.todolist.presentation.adapters.ListFragmentRecyclerViewAdapter
+import com.example.todolist.presentation.dialogs.CreateNoteDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ListFragment: Fragment() {
+class ListFragment: Fragment(), CreateNoteDialog.AddDialogListener {
 
     private var _binding: ListFragmentBinding? = null
     private val binding get() = _binding!!
@@ -22,6 +23,7 @@ class ListFragment: Fragment() {
 
     lateinit var viewModel: ListFragmentViewModel
     lateinit var notesListObserver:Observer<List<Note>>
+
 
 
 
@@ -53,7 +55,7 @@ class ListFragment: Fragment() {
             rvListData.layoutManager = LinearLayoutManager(context)
             rvListData.adapter = adapter
             btnAddNote.setOnClickListener {
-                viewModel.addNote()
+                activity?.supportFragmentManager?.let { it1 -> CreateNoteDialog(this@ListFragment, "Новая заметка", null).show(it1, "ReferenceDialog") }
             }
             notesListObserver = Observer { list ->
                 adapter.updateData(list)
@@ -83,7 +85,10 @@ class ListFragment: Fragment() {
         viewModel.liveDataNotes.removeObserver(notesListObserver)
     }
 
+    override fun noteDataUpdated(note: Note) {
+        viewModel.addNote(note)
 
+    }
 
 
 }
