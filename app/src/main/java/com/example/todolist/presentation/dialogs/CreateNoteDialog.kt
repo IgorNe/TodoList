@@ -25,14 +25,28 @@ class CreateNoteDialog(val dialogListener:AddDialogListener, val dialogTitle:Str
         if(note != null){
             editTextTitle.setText(note!!.title)
             editTextDescription.setText(note!!.description)
+
+
+            return AlertDialog.Builder(requireContext())
+                .setTitle(dialogTitle)
+                .setView(view)
+                .setPositiveButton("Сохранить") { _, _ ->
+
+
+                    dialogListener.noteDataUpdated(Note(
+                        title = editTextTitle.text.toString(),
+                        description = editTextDescription.text.toString(),
+                        id = note!!.id,
+                        time = ""))
+                }
+                .setNegativeButton("Отмена", null)
+                .create()
         }
 
         return AlertDialog.Builder(requireContext())
             .setTitle(dialogTitle)
             .setView(view)
             .setPositiveButton("Сохранить") { _, _ ->
-
-
 
 
                 dialogListener.noteDataUpdated(Note(

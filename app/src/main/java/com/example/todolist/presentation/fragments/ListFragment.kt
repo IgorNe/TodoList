@@ -12,10 +12,11 @@ import com.example.todolist.databinding.ListFragmentBinding
 import com.example.todolist.domain.models.ListFragmentViewModel
 import com.example.todolist.domain.repositories.DataBaseRepositoryImpl
 import com.example.todolist.presentation.adapters.ListFragmentRecyclerViewAdapter
+import com.example.todolist.presentation.adapters.OnNoteEditListener
 import com.example.todolist.presentation.dialogs.CreateNoteDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ListFragment: Fragment(), CreateNoteDialog.AddDialogListener {
+class ListFragment: Fragment(), CreateNoteDialog.AddDialogListener, OnNoteEditListener {
 
     private var _binding: ListFragmentBinding? = null
     private val binding get() = _binding!!
@@ -35,7 +36,7 @@ class ListFragment: Fragment(), CreateNoteDialog.AddDialogListener {
     ): View? {
 
         viewModel = ListFragmentViewModel(DataBaseRepositoryImpl(context = requireContext()))
-        adapter = ListFragmentRecyclerViewAdapter(viewModel)
+        adapter = ListFragmentRecyclerViewAdapter(viewModel, this )
         _binding = ListFragmentBinding.inflate(layoutInflater)
 
 
@@ -88,13 +89,17 @@ class ListFragment: Fragment(), CreateNoteDialog.AddDialogListener {
         viewModel.liveDataNotes.removeObserver(notesListObserver)
     }
 
-    override fun noteDataUpdated(note: Note) {
-        viewModel.addNote(note)
 
+    override fun noteDataUpdated(note: Note) {
+        if (note.id == 0) {
+            viewModel.addNote(note)
+        } else {
+            viewModel.updateNote(note)
+        }
     }
 
-    fun deleteNote(note: Note){
-        viewModel.deleteNote(note)
+    override fun onEditNoteRequested(note: Note) {
+        activity?.supportFragmentManager?.let { it1 -> CreateNoteDialog(this@ListFragment, "Редактировать заметку", note).show(it1, "ReferenceDialog") }
     }
 
 

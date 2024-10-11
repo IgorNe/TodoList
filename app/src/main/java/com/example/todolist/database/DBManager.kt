@@ -187,6 +187,25 @@ class DBManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, nul
     }
 
 
+    fun updateData(note: Note): Int {
+        val db = this.writableDatabase
+
+        val values = ContentValues().apply {
+            put(KEY_TITLE, note.title)
+            put(KEY_DESCRIPTION, note.description)
+            put(KEY_TIME, note.time)
+        }
+
+        return db.update(TABLE_NOTES, values, "id = ?", arrayOf(note.id.toString()))
+    }
+
+    fun removeData(note: Note): Int {
+        val db = this.writableDatabase
+
+        return db.delete(TABLE_NOTES, "id = ?", arrayOf(note.id.toString()))
+    }
+
+
     fun clearTable(): Int {
         val db = writableDatabase
         return db.delete(TABLE_NOTES, null, null)

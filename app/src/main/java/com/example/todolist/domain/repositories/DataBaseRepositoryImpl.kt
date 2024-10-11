@@ -13,8 +13,14 @@ class DataBaseRepositoryImpl(context: Context):DataBaseRepository {
         return dbManager.loadTable()
     }
 
-    override fun insertNote(note:Note):Long {
+    override fun insertNote(note:Note): Long {
         return dbManager.addData(note)
+    }
+    override fun updateNote(note:Note): Int {
+        return dbManager.updateData(note)
+    }
+    override fun removeNote(note:Note): Int {
+        return dbManager.removeData(note)
     }
 
     override fun clearTable() : Int {
